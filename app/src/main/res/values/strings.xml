@@ -5,6 +5,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_act_map">"Hospitais Próximos "</string>
+    <string name="title_activity_act_map">"Hospitais Próximos"</string>
     <string name="error_connection">Sem conexão</string>
+    <string name="hint_nome">Nome</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirmar Password</string>
+    <string name="hint_email">E-mail</string>
+    <string name="registrar">Registrar</string>
+    <string name="login">Login</string>
+    <string name="nome_required">O campo nome é de preenchimento obrigatório</string>
+    <string name="password_required">O campo password é de preenchimento obrigatório</string>
+    <string name="email_required">O campo e-mail é de preenchimento obrigatório</string>
+    <string name="email_invalido">Digite um e-mail válido</string>
+    <string name="password_match">Os password digitados devem ser iguais</string>
+    <string name="mapa">Mapa</string>
 </resources>

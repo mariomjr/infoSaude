@@ -83,6 +83,5 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onFailure(Call<List<Hospital>> call, Throwable t) {
         Toast.makeText(super.getActivity(), "Erro ao recuperar hospitais", Toast.LENGTH_LONG).show();
-
     }
 }

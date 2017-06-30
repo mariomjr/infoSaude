@@ -15,6 +15,9 @@ import android.view.MenuItem;
 public class ActPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    private boolean viewIsAtHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +42,13 @@ public class ActPrincipal extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+        if (!viewIsAtHome) {
+            displayView(R.id.nav_mapa);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -80,16 +85,16 @@ public class ActPrincipal extends AppCompatActivity
         switch (viewId) {
             case R.id.nav_mapa:
                 fragment = new FragmentMap();
-                title = "Mapa";
+                title = getString(R.string.mapa);
 
                 break;
             case R.id.nav_login:
                 fragment = new LoginFragment();
-                title = "Login";
+                title = getString(R.string.login);
                 break;
             case R.id.nav_register:
                 fragment = new RegisterFragment();
-                title = "Registrar";
+                title = getString(R.string.registrar);
                 break;
 
         }

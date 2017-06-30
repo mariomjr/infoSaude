@@ -10,8 +10,6 @@ public class User {
     private String email;
     private String password;
     private String nome;
-    private String username;
-
 
     public Long getId() {
         return id;
@@ -43,13 +41,5 @@ public class User {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

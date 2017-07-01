@@ -1,87 +1,94 @@
 package br.ufg.inf.infosaude;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.util.List;
+import br.ufg.inf.infosaude.utils.MapUtils;
 
-import br.ufg.inf.infosaude.model.Hospital;
-import br.ufg.inf.infosaude.services.HospitalService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class FragmentMap extends SupportMapFragment implements OnMapReadyCallback, Callback<List<Hospital>>{
+public class FragmentMap extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng goiania = new LatLng(-16.6773716,-49.2458615);
-        mMap.addMarker(new MarkerOptions().position(goiania).title("Marcador Praça Universitaria"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(goiania));
-
-
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://private-9eeb1f-infosaude.apiary-mock.com/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        HospitalService hospitalService = retrofit.create(HospitalService.class);
-
-        Call<List<Hospital>> call = hospitalService.getListHospitais();
-        call.enqueue(this);
-    }
-
-    @Override
-    public void onResponse(Call<List<Hospital>> call, Response<List<Hospital>> response) {
-        int code = response.code();
-        if (code == 200) {
-            List<Hospital> listHospitais = response.body();
-            for(Hospital hospital : listHospitais){
-                LatLng hospitalLoc = new LatLng(hospital.getLatitude(),hospital.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(hospitalLoc).title(hospital.getNome()));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalLoc));
-            }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
         } else {
-            Toast.makeText(super.getActivity(), "Não encontrado: " + String.valueOf(code), Toast.LENGTH_LONG).show();
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(true);
+
+            } else {
+                //TODO Verificar essas verificacoes, ver a necessidade de tratar quando ja estao
+                //TODO habilitados
+            }
         }
+
+        mMap.getUiSettings().setCompassEnabled(false);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+
+        Location localizacaoAtual = MapUtils.retornaLocalizacaoAtual(getContext());
+
+        MapUtils.zoomToLocation(mMap, new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()), MapUtils.ZOOM_FACTOR);
     }
 
+    //FIXME japa, ver a necessidade de ter isso aqui dentro desse fragment
+    //FIXME talvez sera necessario colocar essa logica dentro do outro fragment ( O de persistir info sobre os hosp)
+//    @Override
+//    public void onResponse(Call<List<Hospital>> call, Response<List<Hospital>> response) {
+//        int code = response.code();
+//        if (code == 200) {
+//            List<Hospital> listHospitais = response.body();
+//            for(Hospital hospital : listHospitais){
+//                LatLng hospitalLoc = new LatLng(hospital.getLatitude(),hospital.getLongitude());
+//                mMap.addMarker(new MarkerOptions().position(hospitalLoc).title(hospital.getNome()));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalLoc));
+//            }
+//        } else {
+//            Toast.makeText(super.getActivity(), "Não encontrado: " + String.valueOf(code), Toast.LENGTH_LONG).show();
+//        }
+//    }
+//
+//    @Override
+//    public void onFailure(Call<List<Hospital>> call, Throwable t) {
+//        Toast.makeText(super.getActivity(), "Erro ao recuperar hospitais", Toast.LENGTH_LONG).show();
+//    }
+
     @Override
-    public void onFailure(Call<List<Hospital>> call, Throwable t) {
-        Toast.makeText(super.getActivity(), "Erro ao recuperar hospitais", Toast.LENGTH_LONG).show();
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_act_map, viewGroup, false);
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        SupportMapFragment fragment = new SupportMapFragment();
+        transaction.replace(R.id.map, fragment);
+        transaction.commit();
+
+        fragment.getMapAsync(this);
+        return view;
     }
 }

@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">InfoSaude</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
     <string name="title_activity_act_map">"Hospitais Próximos"</string>
     <string name="error_connection">Sem conexão</string>
@@ -21,6 +19,8 @@
     <string name="mapa">Mapa</string>
     <string name="usuario_senha_invalida">Nome de usuário ou senha inválidos</string>
     <string name="login_sucesso">Usuário logado com sucesso!</string>
+    <string name="cadastro_sucesso">Usuário cadastrado com sucesso!</string>
+    <string name="cadastro_erro">Não foi possivel cadastro um usuario com esse e-mail!</string>
     <string name="conexao_erro">Erro ao conectar com o servidor!</string>
     <string name="registre_aqui">Registre Aqui</string>
 </resources>

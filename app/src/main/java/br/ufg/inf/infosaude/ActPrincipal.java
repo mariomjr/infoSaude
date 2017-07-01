@@ -85,16 +85,12 @@ public class ActPrincipal extends AppCompatActivity
         switch (viewId) {
             case R.id.nav_mapa:
                 fragment = new FragmentMap();
-                title = getString(R.string.mapa);
-
                 break;
             case R.id.nav_login:
                 fragment = new LoginFragment();
-                title = getString(R.string.login);
                 break;
             case R.id.nav_register:
                 fragment = new RegisterFragment();
-                title = getString(R.string.registrar);
                 break;
 
         }

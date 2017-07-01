@@ -1,16 +1,24 @@
 package br.ufg.inf.infosaude.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by astr1x on 29/06/17.
  */
 
 public class Usuario {
 
+    @SerializedName("id")
     private Long id;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("password")
     private String password;
+
+    @SerializedName("nome")
     private String nome;
-    private Roles role;
 
     public Long getId() {
         return id;
@@ -42,13 +50,5 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
     }
 }

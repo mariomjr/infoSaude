@@ -4,12 +4,13 @@ package br.ufg.inf.infosaude.model;
  * Created by astr1x on 29/06/17.
  */
 
-public class User {
+public class Usuario {
 
     private Long id;
     private String email;
     private String password;
     private String nome;
+    private Roles role;
 
     public Long getId() {
         return id;
@@ -41,5 +42,13 @@ public class User {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
     }
 }

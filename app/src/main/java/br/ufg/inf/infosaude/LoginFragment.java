@@ -3,28 +3,41 @@ package br.ufg.inf.infosaude;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import br.ufg.inf.infosaude.helpers.InputValidation;
-import br.ufg.inf.infosaude.model.User;
-import br.ufg.inf.infosaude.sql.DatabaseHelper;
+import java.io.IOException;
+
+import br.ufg.inf.infosaude.model.Usuario;
+import br.ufg.inf.infosaude.services.ServicesUtils;
+import br.ufg.inf.infosaude.services.UserService;
+import br.ufg.inf.infosaude.utils.InputValidation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener, Callback<Usuario> {
 
     private Button bLogin;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private TextView tvRegistrar;
 
     private InputValidation inputValidation;
-    private DatabaseHelper databaseHelper;
 
-    private User user;
+    private Usuario usuario;
     View view;
+    private UserService mService;
 
     public LoginFragment() {
     }
@@ -47,8 +60,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bLogin:
-                verifyFromSQLite();
+                try {
+                    realizaLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
+            case R.id.tvRegistrar:
+                redirecioneCadastrar();
+                break;
+
         }
     }
 
@@ -57,19 +78,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         editTextPassword = (EditText) view.findViewById(R.id.editTextPassword);
 
         bLogin = (Button) view.findViewById(R.id.bLogin);
+        tvRegistrar = (TextView) view.findViewById(R.id.tvRegistrar);
     }
 
     private void initListeners() {
         bLogin.setOnClickListener(this);
+        tvRegistrar.setOnClickListener(this);
     }
 
     private void initObjects() {
-//        databaseHelper = new DatabaseHelper(this.getContext());
-        user = new User();
+        usuario = new Usuario();
         inputValidation = new InputValidation(getContext());
     }
 
-    private void verifyFromSQLite() {
+    private void realizaLogin() throws IOException {
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+
         if (!inputValidation.isInputEditTextFilled(editTextEmail, getString(R.string.email_required))) {
             return;
         }
@@ -79,10 +104,44 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         if (!inputValidation.isInputEditTextFilled(editTextPassword, getString(R.string.password_required))) {
             return;
         }
+
+        mService = ServicesUtils.getUserService();
+
+        Call<Usuario> call = mService.getUser(email, password);
+        call.enqueue(this);
     }
 
-    private void emptyInputEditText() {
-        editTextEmail.setText(null);
-        editTextPassword.setText(null);
+    @Override
+    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+        if (response.isSuccessful()) {
+            usuario = response.body();
+
+            if (usuario != null) {
+                Toast.makeText(super.getActivity(), R.string.login_sucesso, Toast.LENGTH_LONG).show();
+                redirecioneHome();
+                Log.i(TAG, "Usuario logado com sucesso!");
+            } else {
+                Toast.makeText(super.getActivity(), R.string.usuario_senha_invalida, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(super.getActivity(), R.string.conexao_erro, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onFailure(Call<Usuario> call, Throwable t) {
+        Toast.makeText(super.getActivity(), R.string.conexao_erro, Toast.LENGTH_LONG).show();
+    }
+
+    public void redirecioneHome() {
+        Fragment fragment = new FragmentMap();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    }
+
+    public void redirecioneCadastrar() {
+        Fragment fragment = new RegisterFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 }

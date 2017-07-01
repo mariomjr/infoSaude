@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import br.ufg.inf.infosaude.helpers.InputValidation;
+import br.ufg.inf.infosaude.utils.InputValidation;
 
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
@@ -44,8 +44,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bRegistrar:
-                //TODO fazer requisicao para salvar
-                postDataToSQLite();
+                cadastraUsuario();
                 break;
         }
     }
@@ -64,11 +63,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initObjects() {
-//        databaseHelper = new DatabaseHelper(this.getContext());
         inputValidation = new InputValidation(getContext());
     }
 
-    private void postDataToSQLite() {
+    private void cadastraUsuario() {
         if (!inputValidation.isInputEditTextFilled(editTextNome, getString(R.string.nome_required))) {
             return;
         }
@@ -88,30 +86,5 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
-//        if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
-//
-//            user.setName(textInputEditTextName.getText().toString().trim());
-//            user.setEmail(textInputEditTextEmail.getText().toString().trim());
-//            user.setPassword(textInputEditTextPassword.getText().toString().trim());
-//
-//            databaseHelper.addUser(user);
-//
-//            // Snack Bar to show success message that record saved successfully
-//            Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-//            emptyInputEditText();
-//
-//
-//        } else {
-//            // Snack Bar to show error message that record already exists
-//            Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-//        }
     }
-
-    private void emptyInputEditText() {
-        editTextNome.setText(null);
-        editTextEmail.setText(null);
-        editTextPassword.setText(null);
-        editTextConfirmPassword.setText(null);
-    }
-
 }

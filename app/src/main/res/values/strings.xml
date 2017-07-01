@@ -19,4 +19,8 @@
     <string name="email_invalido">Digite um e-mail válido</string>
     <string name="password_match">Os password digitados devem ser iguais</string>
     <string name="mapa">Mapa</string>
+    <string name="usuario_senha_invalida">Nome de usuário ou senha inválidos</string>
+    <string name="login_sucesso">Usuário logado com sucesso!</string>
+    <string name="conexao_erro">Erro ao conectar com o servidor!</string>
+    <string name="registre_aqui">Registre Aqui</string>
 </resources>

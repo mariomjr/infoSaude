@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufg.inf.infosaude.model.User;
+import br.ufg.inf.infosaude.model.Usuario;
 
 /**
  * Created by astr1x on 29/06/17.
@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "InfoSaude.db";
 
-    // User table name
+    // Usuario table name
     private static final String TABLE_USER = "user";
 
     // Colunas da tabela de usuario
@@ -57,19 +57,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addUser(User user) {
+    public void addUser(Usuario usuario) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_NAME, user.getNome());
-        values.put(COLUMN_USER_EMAIL, user.getEmail());
-        values.put(COLUMN_USER_PASSWORD, user.getPassword());
+        values.put(COLUMN_USER_NAME, usuario.getNome());
+        values.put(COLUMN_USER_EMAIL, usuario.getEmail());
+        values.put(COLUMN_USER_PASSWORD, usuario.getPassword());
 
         db.insert(TABLE_USER, null, values);
         db.close();
     }
 
-    public List<User> getAllUser() {
+    public List<Usuario> getAllUser() {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_ID,
@@ -80,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // sorting orders
         String sortOrder =
                 COLUMN_USER_NAME + " ASC";
-        List<User> userList = new ArrayList<User>();
+        List<Usuario> usuarioList = new ArrayList<Usuario>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -102,46 +102,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Traversing through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                User user = new User();
-                user.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
-                user.setNome(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
-                user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
-                user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
+                Usuario usuario = new Usuario();
+                usuario.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
+                usuario.setNome(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
+                usuario.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
+                usuario.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
 
-                userList.add(user);
+                usuarioList.add(usuario);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
 
         // return user list
-        return userList;
+        return usuarioList;
     }
 
-    public void updateUser(User user) {
+    public void updateUser(Usuario usuario) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_NAME, user.getNome());
-        values.put(COLUMN_USER_EMAIL, user.getEmail());
-        values.put(COLUMN_USER_PASSWORD, user.getPassword());
+        values.put(COLUMN_USER_NAME, usuario.getNome());
+        values.put(COLUMN_USER_EMAIL, usuario.getEmail());
+        values.put(COLUMN_USER_PASSWORD, usuario.getPassword());
 
         // updating row
         db.update(TABLE_USER, values, COLUMN_USER_ID + " = ?",
-                new String[]{String.valueOf(user.getId())});
+                new String[]{String.valueOf(usuario.getId())});
         db.close();
     }
 
     /**
-     * This method is to delete user record
+     * This method is to delete usuario record
      *
-     * @param user
+     * @param usuario
      */
-    public void deleteUser(User user) {
+    public void deleteUser(Usuario usuario) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // delete user record by id
+        // delete usuario record by id
         db.delete(TABLE_USER, COLUMN_USER_ID + " = ?",
-                new String[]{String.valueOf(user.getId())});
+                new String[]{String.valueOf(usuario.getId())});
         db.close();
     }
 

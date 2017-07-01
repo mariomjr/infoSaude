@@ -15,7 +15,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import br.ufg.inf.infosaude.model.Hospital;
-import br.ufg.inf.infosaude.services.HospitalAPI;
+import br.ufg.inf.infosaude.services.HospitalService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,9 +59,9 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        HospitalAPI hospitalApi = retrofit.create(HospitalAPI.class);
+        HospitalService hospitalService = retrofit.create(HospitalService.class);
 
-        Call<List<Hospital>> call = hospitalApi.getListHospitais();
+        Call<List<Hospital>> call = hospitalService.getListHospitais();
         call.enqueue(this);
     }
 

@@ -1,4 +1,4 @@
-package br.ufg.inf.infosaude.helpers;
+package br.ufg.inf.infosaude.utils;
 
 /**
  * Created by astr1x on 29/06/17.

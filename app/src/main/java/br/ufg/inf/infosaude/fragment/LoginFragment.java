@@ -1,4 +1,4 @@
-package br.ufg.inf.infosaude;
+package br.ufg.inf.infosaude.fragment;
 
 
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.model.Usuario;
 import br.ufg.inf.infosaude.services.ServicesUtils;
 import br.ufg.inf.infosaude.services.UserService;
@@ -134,7 +135,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
     }
 
     public void redirecioneHome() {
-        Fragment fragment = new FragmentMap();
+        Fragment fragment = new MapFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }

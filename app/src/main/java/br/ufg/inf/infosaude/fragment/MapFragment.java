@@ -1,4 +1,4 @@
-package br.ufg.inf.infosaude;
+package br.ufg.inf.infosaude.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -17,9 +17,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.utils.MapUtils;
 
-public class FragmentMap extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -54,7 +55,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
 
         Location localizacaoAtual = MapUtils.retornaLocalizacaoAtual(getContext());
 
-        MapUtils.zoomToLocation(mMap, new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()), MapUtils.ZOOM_FACTOR);
+//        MapUtils.zoomToLocation(mMap, new LatLng(localizacaoAtual.getLatitude(), localizacaoAtual.getLongitude()), MapUtils.ZOOM_FACTOR);
+        MapUtils.zoomToLocation(mMap, new LatLng(-16.6773716, -49.2458615), MapUtils.ZOOM_FACTOR);
     }
 
     //FIXME japa, ver a necessidade de ter isso aqui dentro desse fragment
@@ -81,7 +83,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_act_map, viewGroup, false);
+        View view = inflater.inflate(R.layout.fragment_map, viewGroup, false);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         SupportMapFragment fragment = new SupportMapFragment();

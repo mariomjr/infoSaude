@@ -1,4 +1,4 @@
-package br.ufg.inf.infosaude;
+package br.ufg.inf.infosaude.fragment;
 
 
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.model.Usuario;
 import br.ufg.inf.infosaude.services.ServicesUtils;
 import br.ufg.inf.infosaude.services.UserService;

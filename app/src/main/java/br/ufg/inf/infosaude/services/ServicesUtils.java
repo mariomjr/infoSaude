@@ -24,4 +24,8 @@ public class ServicesUtils {
     public static EspecialidadesService getEspecialidadeService() {
         return RetrofitClient.getClient(URL_BASE).create(EspecialidadesService.class);
     }
+
+    public static FavoritoService getFavoritoService() {
+        return RetrofitClient.getClient(URL_BASE).create(FavoritoService.class);
+    }
 }

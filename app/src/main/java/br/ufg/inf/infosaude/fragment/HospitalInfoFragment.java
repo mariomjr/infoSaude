@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.ufg.inf.infosaude.R;
-import br.ufg.inf.infosaude.adapters.ListHospitalAdapter;
+import br.ufg.inf.infosaude.adapters.HospitalInfoAdapter;
 import br.ufg.inf.infosaude.model.Especialidades;
 import br.ufg.inf.infosaude.services.EspecialidadesService;
 import br.ufg.inf.infosaude.services.ServicesUtils;
@@ -76,7 +76,7 @@ public class HospitalInfoFragment extends Fragment
             especialidades = response.body();
 
             if (especialidades != null) {
-                ListHospitalAdapter adapter = new ListHospitalAdapter(getActivity(), especialidades);
+                HospitalInfoAdapter adapter = new HospitalInfoAdapter(getActivity(), especialidades);
                 rvEspecialidades.setAdapter(adapter);
             }
         }else {

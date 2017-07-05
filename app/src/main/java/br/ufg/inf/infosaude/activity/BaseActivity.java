@@ -90,7 +90,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.register_fragment) {
             launchRegisterIntent();
         } else if (id == R.id.favorite_fragment) {
-
+            launchFavoriteIntent();
         } else if (id == R.id.logout) {
             logout();
             Toast.makeText(this, R.string.logout_sucesso, Toast.LENGTH_LONG).show();
@@ -137,6 +137,12 @@ public class BaseActivity extends AppCompatActivity
 
     protected void launchRegisterIntent() {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void launchFavoriteIntent() {
+        Intent intent = new Intent(this, FavoriteActivity.class);
         startActivity(intent);
         finish();
     }

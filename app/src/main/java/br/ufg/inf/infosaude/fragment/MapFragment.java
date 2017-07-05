@@ -300,14 +300,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
         Bundle bundle=new Bundle();
         bundle.putString("nome", marker.getTitle());
         bundle.putString("endereco", marker.getSnippet());
         bundle.putDouble("latitude", marker.getPosition().latitude);
         bundle.putDouble("longitude", marker.getPosition().longitude);
 
-        ListHospitaisFragment nextFrag= new ListHospitaisFragment();
+        HospitalInfoFragment nextFrag = new HospitalInfoFragment();
         nextFrag.setArguments(bundle);
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.frame, nextFrag)
@@ -318,8 +317,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onResume() {
-        //mMap.onResume();
         super.onResume();
     }
-
 }

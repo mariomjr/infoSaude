@@ -10,30 +10,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.adapters.ListHospitalAdapter;
 import br.ufg.inf.infosaude.model.Especialidades;
-import br.ufg.inf.infosaude.model.Usuario;
-import br.ufg.inf.infosaude.services.HospitalService;
+import br.ufg.inf.infosaude.services.EspecialidadesService;
 import br.ufg.inf.infosaude.services.ServicesUtils;
-import br.ufg.inf.infosaude.services.UserService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.password;
-
-public class ListHospitaisFragment extends Fragment
+public class HospitalInfoFragment extends Fragment
         implements Callback<List<Especialidades>> {
 
         RecyclerView rvEspecialidades;
 
-        private HospitalService mService;
+    private EspecialidadesService mService;
 
         List<Especialidades> especialidades;
 
@@ -51,9 +44,7 @@ public class ListHospitaisFragment extends Fragment
             latitude =  getArguments().getDouble("latitude");
             longitude =  getArguments().getDouble("longitude");
 
-
-
-            View view = inflater.inflate(R.layout.fragment_hospitais_list, container, false);
+            View view = inflater.inflate(R.layout.fragment_hospital_info, container, false);
             rvEspecialidades =  (RecyclerView) view.findViewById(R.id.rv_list);
             rvEspecialidades.setHasFixedSize(true);
 
@@ -72,7 +63,7 @@ public class ListHospitaisFragment extends Fragment
         @Override
         public void onStart (){
             super.onStart();
-            mService = ServicesUtils.getHospitalService();
+            mService = ServicesUtils.getEspecialidadeService();
 
             Call<List<Especialidades>> call = mService.getListEspecialidades(latitude, longitude);
             call.enqueue(this);
@@ -95,6 +86,6 @@ public class ListHospitaisFragment extends Fragment
 
     @Override
     public void onFailure(Call<List<Especialidades>> call, Throwable t) {
-
+        Toast.makeText(super.getActivity(), R.string.conexao_erro, Toast.LENGTH_LONG).show();
     }
 }

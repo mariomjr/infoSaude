@@ -7,19 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import br.ufg.inf.infosaude.R;
-import br.ufg.inf.infosaude.fragment.ListHospitaisFragment;
-import br.ufg.inf.infosaude.model.Especialidades;
-
 import java.util.List;
+
+import br.ufg.inf.infosaude.R;
+import br.ufg.inf.infosaude.model.Especialidades;
 
 public class ListHospitalAdapter extends RecyclerView.Adapter<ListHospitalAdapter.ViewHolder> {
 
-
     private final Context context;
     private final List<Especialidades> especialidades;
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

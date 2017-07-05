@@ -20,4 +20,8 @@ public class ServicesUtils {
     public static HospitalService getHospitalService() {
         return RetrofitClient.getClient(URL_BASE).create(HospitalService.class);
     }
+
+    public static EspecialidadesService getEspecialidadeService() {
+        return RetrofitClient.getClient(URL_BASE).create(EspecialidadesService.class);
+    }
 }

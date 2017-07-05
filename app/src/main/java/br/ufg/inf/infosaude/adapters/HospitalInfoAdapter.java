@@ -12,7 +12,7 @@ import java.util.List;
 import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.model.Especialidades;
 
-public class ListHospitalAdapter extends RecyclerView.Adapter<ListHospitalAdapter.ViewHolder> {
+public class HospitalInfoAdapter extends RecyclerView.Adapter<HospitalInfoAdapter.ViewHolder> {
 
     private final Context context;
     private final List<Especialidades> especialidades;
@@ -52,7 +52,7 @@ public class ListHospitalAdapter extends RecyclerView.Adapter<ListHospitalAdapte
         }
     }
 
-    public ListHospitalAdapter(Context context, List<Especialidades> especialidades){
+    public HospitalInfoAdapter(Context context, List<Especialidades> especialidades) {
 
         this.context = context;
         this.especialidades = especialidades;

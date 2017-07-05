@@ -3,18 +3,24 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:orientation="horizontal"
 tools:context="br.ufg.inf.infosaude.fragment.ListHospitaisFragment">
 
-<TextView
-    android:id="@+id/nomeHospital"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="Hospital" />
+    <TextView
+        android:id="@+id/nomeHospital"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
 
-    <android.support.v7.app.AlertController.RecycleListView
+    <TextView
+        android:id="@+id/enderecoHospital"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </android.support.v7.app.AlertController.RecycleListView>
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

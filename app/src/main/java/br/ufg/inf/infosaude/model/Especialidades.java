@@ -6,12 +6,21 @@ package br.ufg.inf.infosaude.model;
 
 public class Especialidades {
 
+    private  Integer area;
     private  String nome;
     private  Integer quantidade;
 
     public Especialidades(String nome, Integer quantidade){
         this.nome = nome;
         this.quantidade = quantidade;
+    }
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
     }
 
     public String getNome() {

@@ -29,6 +29,7 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -54,7 +55,7 @@ import static android.content.ContentValues.TAG;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnInfoWindowClickListener{
 
     private GoogleMap mMap;
 
@@ -71,8 +72,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "lng";
     public static final String GEOMETRY = "geometry";
-    public static final String ICON = "icon";
-    public static final String PLACE_NAME = "place_name";
     public static final String NAME = "name";
 
     @Override
@@ -108,7 +107,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.setOnMarkerClickListener(this);
+       // mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
         Location localizacaoAtual = MapUtils.retornaLocalizacaoAtual(getContext());
         GPSTracker location = new GPSTracker(getContext());
@@ -240,6 +240,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
         double latitudeAux, longitudeAux;
         String placeName = "";
+        String endereco = "";
         try {
             // Create a JSON object hierarchy from the results
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
@@ -253,6 +254,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     placeName = place.getString(NAME);
                 }
 
+                endereco = place.getString("vicinity");
+
                 latitudeAux = place.getJSONObject(GEOMETRY).getJSONObject("location")
                         .getDouble(LATITUDE);
                 longitudeAux = place.getJSONObject(GEOMETRY).getJSONObject("location")
@@ -264,6 +267,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 LatLng latLng = new LatLng(latitudeAux, longitudeAux);
                 markerOptions.position(latLng);
                 markerOptions.title(placeName);
+                markerOptions.snippet(endereco);
+                markerOptions.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
                 mMap.addMarker(markerOptions);
 
@@ -319,9 +324,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
+   // @Override
+    //public boolean onMarkerClick(Marker marker) {
+        //Log.d(TAG, "Lat.-"+marker.getPosition().latitude+" Long.-"+marker.getPosition().longitude);
+   //     return false;
+   // }
+
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public void onInfoWindowClick(Marker marker) {
+
+        Bundle bundle=new Bundle();
+        bundle.putString("nome", marker.getTitle());
+        bundle.putString("endereco", marker.getSnippet());
+        bundle.putDouble("latitude", marker.getPosition().latitude);
+        bundle.putDouble("longitude", marker.getPosition().longitude);
+
+        ListHospitaisFragment nextFrag= new ListHospitaisFragment();
+        nextFrag.setArguments(bundle);
+        this.getFragmentManager().beginTransaction()
+                .replace(R.id.frame, nextFrag)
+                .addToBackStack("MapFragment")
+                .commit();
         Log.d(TAG, "Lat.-"+marker.getPosition().latitude+" Long.-"+marker.getPosition().longitude);
-        return false;
     }
+
+    @Override
+    public void onResume() {
+        //mMap.onResume();
+        super.onResume();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getFragmentManager().beginTransaction().remove(this).commit();
+    }
+
 }

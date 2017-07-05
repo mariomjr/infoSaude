@@ -97,8 +97,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 mMap.setMyLocationEnabled(true);
 
             } else {
-                //TODO Verificar essas verificacoes, ver a necessidade de tratar quando ja estao
-                //TODO habilitados
             }
         }
 
@@ -127,22 +125,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                //Prompt the user once explanation has been shown
                 ActivityCompat.requestPermissions(this.getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
 
 
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this.getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
@@ -274,7 +265,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
             }
         } catch (JSONException e) {
-            // Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
     }
 
@@ -283,28 +273,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mGoogleApiClient.disconnect();
         super.onStop();
     }
-
-    //FIXME japa, ver a necessidade de ter isso aqui dentro desse fragment
-    //FIXME talvez sera necessario colocar essa logica dentro do outro fragment ( O de persistir info sobre os hosp)
-//    @Override
-//    public void onResponse(Call<List<Hospital>> call, Response<List<Hospital>> response) {
-//        int code = response.code();
-//        if (code == 200) {
-//            List<Hospital> listHospitais = response.body();
-//            for(Hospital hospital : listHospitais){
-//                LatLng hospitalLoc = new LatLng(hospital.getLatitude(),hospital.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(hospitalLoc).title(hospital.getNome()));
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalLoc));
-//            }
-//        } else {
-//            Toast.makeText(super.getActivity(), "Não encontrado: " + String.valueOf(code), Toast.LENGTH_LONG).show();
-//        }
-//    }
-//
-//    @Override
-//    public void onFailure(Call<List<Hospital>> call, Throwable t) {
-//        Toast.makeText(super.getActivity(), "Erro ao recuperar hospitais", Toast.LENGTH_LONG).show();
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -352,11 +320,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onResume() {
         //mMap.onResume();
         super.onResume();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getFragmentManager().beginTransaction().remove(this).commit();
     }
 
 }

@@ -16,4 +16,8 @@ public class ServicesUtils {
     public static UserService getUserService() {
         return RetrofitClient.getClient(URL_BASE).create(UserService.class);
     }
+
+    public static HospitalService getHospitalService() {
+        return RetrofitClient.getClient(URL_BASE).create(HospitalService.class);
+    }
 }

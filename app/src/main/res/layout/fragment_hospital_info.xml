@@ -11,16 +11,20 @@
 
         <TextView
             android:id="@+id/nomeHospital"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22sp"
             android:text="Nome Hospital" />
 
         <TextView
             android:id="@+id/enderecoHospital"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
             android:text="Endereço Hospital" />
     </LinearLayout>
 

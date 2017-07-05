@@ -66,8 +66,8 @@ public class SituacaoHospitaisRecyclerViewAdapter extends RecyclerView.Adapter<S
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = (TextView) view.findViewById(R.id.especialidade);
+            mContentView = (TextView) view.findViewById(R.id.quantidade);
         }
 
         @Override

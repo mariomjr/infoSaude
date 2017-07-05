@@ -141,6 +141,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void redirecioneLogin() {
         Fragment fragment = new LoginFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 }

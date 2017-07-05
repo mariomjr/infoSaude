@@ -11,6 +11,8 @@
     <string name="hint_email">E-mail</string>
     <string name="registrar">Registrar</string>
     <string name="login">Login</string>
+    <string name="logout">Log out</string>
+    <string name="favoritos">Favoritos</string>
     <string name="nome_required">O campo nome é de preenchimento obrigatório</string>
     <string name="password_required">O campo password é de preenchimento obrigatório</string>
     <string name="email_required">O campo e-mail é de preenchimento obrigatório</string>

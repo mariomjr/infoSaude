@@ -137,12 +137,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
     public void redirecioneHome() {
         Fragment fragment = new MapFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 
     public void redirecioneCadastrar() {
         Fragment fragment = new RegisterFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 }

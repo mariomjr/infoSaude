@@ -13,7 +13,10 @@ local.properties
 # Signing files
 .signing/
 
+app.iml
+
 # User-specific configurations
+.idea/*
 .idea/libraries/
 .idea/workspace.xml
 .idea/tasks.xml

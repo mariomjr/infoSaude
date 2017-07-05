@@ -21,11 +21,10 @@
     <string name="mapa">Mapa</string>
     <string name="usuario_senha_invalida">Nome de usuário ou senha inválidos</string>
     <string name="login_sucesso">Usuário logado com sucesso!</string>
+    <string name="logout_sucesso">Logout realizado com sucesso!</string>
     <string name="cadastro_sucesso">Usuário cadastrado com sucesso!</string>
     <string name="cadastro_erro">Não foi possivel cadastro um usuario com esse e-mail!</string>
     <string name="conexao_erro">Erro ao conectar com o servidor!</string>
     <string name="registre_aqui">Registre Aqui</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bem_vindo">Bem-Vindo</string>
 </resources>

@@ -1,10 +1,10 @@
 package br.ufg.inf.infosaude.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +16,16 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import br.ufg.inf.infosaude.R;
+import br.ufg.inf.infosaude.activity.MainActivity;
+import br.ufg.inf.infosaude.activity.RegisterActivity;
 import br.ufg.inf.infosaude.model.Usuario;
 import br.ufg.inf.infosaude.services.ServicesUtils;
 import br.ufg.inf.infosaude.services.UserService;
 import br.ufg.inf.infosaude.utils.InputValidation;
+import br.ufg.inf.infosaude.utils.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener, Callback<Usuario> {
@@ -39,8 +40,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
     private Usuario usuario;
     View view;
     private UserService mService;
+    SessionManager session;
 
     public LoginFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        session = new SessionManager(getActivity().getApplicationContext());
     }
 
     @Override
@@ -68,7 +77,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
                 }
                 break;
             case R.id.tvRegistrar:
-                redirecioneCadastrar();
+                redirecioneCadastro();
                 break;
 
         }
@@ -119,8 +128,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
 
             if (usuario != null) {
                 Toast.makeText(super.getActivity(), R.string.login_sucesso, Toast.LENGTH_LONG).show();
+                salvaDadosUsuarioSessao(usuario.getNome(), usuario.getEmail());
+                Toast.makeText(super.getActivity(), R.string.login_sucesso, Toast.LENGTH_LONG).show();
                 redirecioneHome();
-                Log.i(TAG, "Usuario logado com sucesso!");
             } else {
                 Toast.makeText(super.getActivity(), R.string.usuario_senha_invalida, Toast.LENGTH_LONG).show();
             }
@@ -134,15 +144,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Cal
         Toast.makeText(super.getActivity(), R.string.conexao_erro, Toast.LENGTH_LONG).show();
     }
 
-    public void redirecioneHome() {
-        Fragment fragment = new MapFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    private void salvaDadosUsuarioSessao(String nome, String email) {
+        session.createLoginSession(nome, email);
     }
 
-    public void redirecioneCadastrar() {
-        Fragment fragment = new RegisterFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    protected void redirecioneHome() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    protected void redirecioneCadastro() {
+        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+        startActivity(intent);
     }
 }

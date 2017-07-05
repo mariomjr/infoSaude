@@ -1,5 +1,6 @@
 package br.ufg.inf.infosaude.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -10,11 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 import br.ufg.inf.infosaude.R;
 import br.ufg.inf.infosaude.fragment.LoginFragment;
 import br.ufg.inf.infosaude.fragment.MapFragment;
 import br.ufg.inf.infosaude.fragment.RegisterFragment;
+import br.ufg.inf.infosaude.utils.SessionManager;
 
 /**
  * Created by astr1x on 03/07/17.
@@ -23,12 +30,20 @@ import br.ufg.inf.infosaude.fragment.RegisterFragment;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    protected SessionManager session;
+    protected NavigationView navigationView;
+    protected TextView tvNomeUsuario;
+    protected TextView tvEmailUsuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        session = new SessionManager(getApplicationContext());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -39,7 +54,10 @@ public class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        hideItem();
+        setaNomeUsuarioHeader();
         setTitle(R.string.app_name);
+
     }
 
     @Override
@@ -66,15 +84,17 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.map_fragment) {
-            showMapFragment();
+            launchMapIntent();
         } else if (id == R.id.login_fragment) {
-            showLoginFragment();
+            launchLogIntent();
         } else if (id == R.id.register_fragment) {
-            showRegisterFragment();
+            launchRegisterIntent();
         } else if (id == R.id.favorite_fragment) {
 
         } else if (id == R.id.logout) {
-
+            logout();
+            Toast.makeText(this, R.string.logout_sucesso, Toast.LENGTH_LONG).show();
+            launchMapIntent();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -103,10 +123,59 @@ public class BaseActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-//    private void showFavoriteFragment() {
-//        RegisterFragment fragment = new RegisterFragment();
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.frame, fragment);
-//        fragmentTransaction.commit();
-//    }
+    protected void launchMapIntent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void launchLogIntent() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void launchRegisterIntent() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void hideItem() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+
+        if (session.isLoggedIn()) {
+            nav_Menu.findItem(R.id.favorite_fragment).setVisible(true);
+            nav_Menu.findItem(R.id.logout).setVisible(true);
+            nav_Menu.findItem(R.id.login_fragment).setVisible(false);
+            nav_Menu.findItem(R.id.register_fragment).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.login_fragment).setVisible(true);
+            nav_Menu.findItem(R.id.register_fragment).setVisible(true);
+            nav_Menu.findItem(R.id.favorite_fragment).setVisible(false);
+            nav_Menu.findItem(R.id.logout).setVisible(false);
+        }
+    }
+
+    protected void setaNomeUsuarioHeader() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        tvNomeUsuario = (TextView) headerView.findViewById(R.id.tvNomeUsuario);
+        tvEmailUsuario = (TextView) headerView.findViewById(R.id.tvEmailUsuario);
+
+        if (session.isLoggedIn()) {
+            HashMap<String, String> usuario = session.getUserDetails();
+            tvNomeUsuario.setText("Bem vindo, " + usuario.get(SessionManager.KEY_NOME));
+            tvEmailUsuario.setText(usuario.get(SessionManager.KEY_EMAIL));
+        } else {
+            tvNomeUsuario.setText(R.string.bem_vindo);
+            tvEmailUsuario.setText("");
+        }
+    }
+
+    protected void logout() {
+        session.logoutUser();
+    }
 }

@@ -3,12 +3,13 @@
 
     <item
         android:id="@+id/nav_mapa"
-        android:title="@string/mapa"></item>
+        android:title="@string/mapa"
+        android:icon="@drawable/ic_map_black_18dp" />
 
     <item
         android:id="@+id/nav_favoritos"
         android:icon="@drawable/ic_favorite_black_18dp"
-        android:title="@string/favoritos"></item>
+        android:title="@string/favoritos" />
 
     <item
         android:id="@+id/nav_login"
@@ -17,10 +18,11 @@
 
     <item
         android:id="@+id/nav_registrar"
-        android:title="@string/registrar"
-        android:icon="@drawable/ic_person_add_black_18dp"></item>
+        android:icon="@drawable/ic_person_add_black_18dp"
+        android:title="@string/registrar"></item>
 
     <item
         android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_exit_to_app_black_18dp"
         android:title="@string/logout"></item>
 </menu>

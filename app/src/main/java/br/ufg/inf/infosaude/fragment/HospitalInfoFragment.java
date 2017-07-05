@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class HospitalInfoFragment extends Fragment
         RecyclerView rvEspecialidades;
 
     private EspecialidadesService mService;
+    private Button bAdicionar;
+    private Button bRemover;
 
         List<Especialidades> especialidades;
 
